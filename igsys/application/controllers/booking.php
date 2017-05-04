@@ -441,7 +441,7 @@ class Booking extends Controller
 
 		$this->customer_model->update_customer($customerNumber,$customerName,$customerSurname,$customerCompanyId,$customerLandphone,$customerMobile,$customerEmail,$customerCountry,$customerAddress,$customerReferral,$customerDate);
 
-		$result = $this->booking_model->update_booking($bookingNumber,$customerReferral,$propertyList,$customerSpecials,$fromTime,$adults,$children,$infants,$toTime,$cot,$highchair,$bookingNotes,$bookingFee,$accommCost,$customerPrice,$customerBalance,$commissionableCost,$commissionPercentage,$commissionAmount,$vatAmount,$agentFee,$ownerBalance,$ownerPaid,$ownerPaidDate,$ownerReference,$ownerPaymentMethod,$repeatBusiness,$bookingStatus);
+		$result = $this->booking_model->update_booking($bookingNumber,$customerReferral,$propertyList,$customerSpecials,$fromTime,$adults,$children,$infants,$toTime,$cot,$highchair,$bookingNotes,$bookingFee,$accommCost,$customerPrice,$customerBalance,$commissionableCost,$commissionPercentage,$commissionAmount,$vatPercentage,$vatAmount,$agentFee,$ownerBalance,$ownerPaid,$ownerPaidDate,$ownerReference,$ownerPaymentMethod,$repeatBusiness,$bookingStatus);
 
 		$data['query'] = $this->booking_model->get_booking_by_booking_number($bookingNumber);
 		$data['payments'] = $this->payment_model->get_payments_by_booking_number($bookingNumber);
