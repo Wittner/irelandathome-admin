@@ -418,8 +418,6 @@ class Booking extends Controller
 		$customerTotalPaid = $this->input->post('customerTotalPaid');
 		$commissionPercentage = $this->input->post('commissionPercentage');
 		$vatPercentage = $this->input->post('vatPercentage');
-		echo $vatPercentage;
-
 		// Re-do the math if we are cancelling
 		if($cancelStatus == 'CANCELLED') {
 			$accommCost = 0;
@@ -434,6 +432,8 @@ class Booking extends Controller
 		$vatAmount = ($commissionAmount * $vatPercentage)/100;
 		$agentFee = $bookingFee + $commissionAmount;
 		$ownerBalance = $commissionableCost - $commissionAmount - $vatAmount + $ownerTotalCharges;
+
+		echo "owner balance: " + $ownerBalance + ", vat rate: " + $vatPercentage + ", vat amount: " + $vatAmount + ", owner balance: " + $ownerBalance;
 
 		$ownerPaid = $this->input->post('ownerPaid');
 		$ownerPaidDate = $this->input->post('ownerPaidDate');
