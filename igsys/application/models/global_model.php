@@ -218,7 +218,7 @@ class Global_model extends Model
         $APP_companyDetails['baseurl'] = 'http://www.ckghosting.com/iahadmin/';
         $APP_companyDetails['imageurl'] = 'http://www.irelandathome.com/images';
         $APP_companyDetails['infodocsurl'] = 'http://www.irelandathome.com/infodocs/';
-        $APP_companyDetails['imageurl'] = 'https://www.ckghosting.com/';
+        $APP_companyDetails['imageurl'] = 'https://images.ckghosting.com/';
         $APP_companyDetails['signoff'] = '
         <p>
         Contact Ireland at Home<br />
