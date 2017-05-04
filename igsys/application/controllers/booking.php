@@ -433,7 +433,7 @@ class Booking extends Controller
 		$agentFee = $bookingFee + $commissionAmount;
 		$ownerBalance = $commissionableCost - $commissionAmount - $vatAmount + $ownerTotalCharges;
 
-		echo "owner balance: " . $ownerBalance + ", vat rate: " . $vatPercentage . ", vat amount: " . $vatAmount . ", owner balance: " . $ownerBalance;
+		echo "owner balance: " . $ownerBalance . ", vat rate: " . $vatPercentage . ", vat amount: " . $vatAmount . ", owner balance: " . $ownerBalance;
 
 		$ownerPaid = $this->input->post('ownerPaid');
 		$ownerPaidDate = $this->input->post('ownerPaidDate');
