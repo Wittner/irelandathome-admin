@@ -1,0 +1,1 @@
+<marquee><?=$salesList;?></marquee>
