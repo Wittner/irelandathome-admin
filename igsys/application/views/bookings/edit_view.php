@@ -25,14 +25,9 @@ if($ownerChargesOutput != ''){
 <?
 /* SET THE OWNER PAID DATE */
 
-echo $row->vatPercentage;
-
-if($row->ownerPaidDate == '0000-00-00')
-{
+if($row->ownerPaidDate == '0000-00-00') {
 	$displayOwnerPaidDate = date('Y-m-d');
-}
-else
-{
+}else{
 	$displayOwnerPaidDate = $row->ownerPaidDate;
 }
 
