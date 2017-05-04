@@ -418,6 +418,7 @@ class Booking extends Controller
 		$customerTotalPaid = $this->input->post('customerTotalPaid');
 		$commissionPercentage = $this->input->post('commissionPercentage');
 		$vatPercentage = $this->input->post('vatPercentage');
+		echo $vatPercentage;
 
 		// Re-do the math if we are cancelling
 		if($cancelStatus == 'CANCELLED') {
