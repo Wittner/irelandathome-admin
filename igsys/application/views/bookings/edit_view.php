@@ -416,7 +416,7 @@ Mobile<br />
 <td class="normal" valign="top">
   <select name="vatPercentage">
     <option value="0" <?php if($row->vatPercentage == "0"){ echo "selected";} ?>>Zero VAT</option>
-    <option value="23"  <?php if($row->vatPercentage == "0"){ echo "selected";} ?>>23%</option>
+    <option value="23"  <?php if($row->vatPercentage == "23"){ echo "selected";} ?>>23%</option>
   </select>
 </td>
 </tr>
