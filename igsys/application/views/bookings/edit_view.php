@@ -407,12 +407,27 @@ Mobile<br />
 <td class="normal" valign="top"><input type="text" size="15" name="commissionAmount" value="<?php printf("%.2f",$row->commissionAmount);?>" readonly="true" /></td>
 </tr>
 
+<!-- Pick your vat on commission percentage 23% or nuttin' -->
 <tr>
 <td class="normal" valign="top"></td>
 <td class="normal" valign="top"></td>
 <td class="normal" valign="top"></td>
-<td align="right" class="normal" class="normal" valign="top" colspan="2">Vat on commission at <?php printf("%.2f",$row->vatPercentage);?>% &nbsp;&nbsp; </td>
-<td class="normal" valign="top"><input type="text" size="15" name="vatAmount" value="<?php printf("%.2f",$row->vatAmount);?>" readonly="true" /></td>
+<td align="right" class="normal" class="normal" valign="top" colspan="2">Vat Rate</td>
+<td class="normal" valign="top">
+  <select name="vatPercentage">
+    <option value="0" <?php if($row->vatPercentage == "0"){ echo "selected";} ?>>Zero VAT</option>
+    <option value="23"  <?php if($row->vatPercentage == "0"){ echo "selected";} ?>>23%</option>
+  </select>
+</td>
+</tr>
+
+<!-- Vat on commission amount -->
+<tr>
+  <td class="normal" valign="top"></td>
+  <td class="normal" valign="top"></td>
+  <td class="normal" valign="top"></td>
+  <td align="right" class="normal" class="normal" valign="top" colspan="2">Vat on commission at <?php printf("%.2f",$row->vatPercentage);?>% &nbsp;&nbsp; </td>
+  <td class="normal" valign="top"><input type="text" size="15" name="vatAmount" value="<?php printf("%.2f",$row->vatAmount);?>" readonly="true" /></td>
 </tr>
 
 <tr>

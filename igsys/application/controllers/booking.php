@@ -1,9 +1,9 @@
 <?php
 /**
  * Booking
- * 
+ *
  * @package Ireland at Home 2009
- * @author 
+ * @author
  * @copyright 2008
  * @version $Id$
  * @access public
@@ -50,10 +50,10 @@ class Booking extends Controller
         $this->load->model('global_model');
         $this->global_model->is_logged_in();
     }
-    
-/*	MAKE A BOOKING */    
+
+/*	MAKE A BOOKING */
     function make_booking()
-    {		
+    {
 
 		// Form validation
 		$rules['paymentRef']	= "required";
@@ -110,7 +110,7 @@ class Booking extends Controller
 		$data['companyCombo'] = $this->company_model->get_company_combo('');
 		$data['propertyInput'] = $this->property_model->get_property_by_code($data['propertyCode']);
 		$this->validation->set_fields($data);
-	
+
 		// Data from form
 		$customerNumber = $this->input->post('customerNumber');
 		$customerName = $this->input->post('customerName');
@@ -152,11 +152,11 @@ class Booking extends Controller
 		$adminInit = 'MB';
 		$sourceCode = 'ADM';
 		$bookingStatus = 'PAYMNT';
-	
-	
-	
-	
-	
+
+
+
+
+
 		if ($this->validation->run() == FALSE)
 		{
 			// Reload add booking view
@@ -211,10 +211,10 @@ class Booking extends Controller
 				$data['chargePurpose'] = $chargePurpose;
 				$data['chargeAmount'] = $chargeAmount;
 				$data['commissionPercentage'] = $commissionPercentage;
-				
+
 				// Set existing customer data
 				$data['query'] = $this->customer_model->get_customer_by_number($checkCustomerNumber);
-				
+
 				// Load conflict view
 				$headerView = $this->global_model->get_standard_header_view();
 				$this->load->view('bookings/conflict_view',$data);
@@ -224,7 +224,7 @@ class Booking extends Controller
 			{
 				// Customer is new - add customer, then add booking
 				$customerNumber = $this->customer_model->add_customer($customerName,$customerSurname,$customerLandphone,$customerMobile,$customerEmail,$customerCountry,$customerAddress,$customerReferral,$customerDate,$customerCompanyId);
-				
+
 				// Add availability, booking, payment, initial charges if any
 				$data['heading'] = 'Edit Booking';
 				$data['status'] = $this->availability_model->add_availability($propertyCode,$fromDate,$customerNights);
@@ -242,17 +242,17 @@ class Booking extends Controller
 				$headerView = $this->global_model->get_standard_header_view();
 				$this->load->view('bookings/edit_booking_controlbar_view',$data);
 				$this->load->view('bookings/edit_view',$data);
-				$this->load->view('footer_view');	
+				$this->load->view('footer_view');
 			}
     	}
     }// end of validation else
 	}
 
-/*	MAKE A CUSTOMER CONFLICT BOOKING */	
+/*	MAKE A CUSTOMER CONFLICT BOOKING */
 	function customer_conflict()
 	{
 		// Booking has come in from 'customer conflict' view
-		
+
 		// New info
 		$newCustomerName = $this->input->post('newCustomerName');
 		$newCustomerSurname = $this->input->post('newCustomerSurname');
@@ -273,13 +273,13 @@ class Booking extends Controller
 		$customerAddress = $this->input->post('customerAddress');
 		$customerLandphone = $this->input->post('customerLandphone');
 		$customerMobile = $this->input->post('customerMobile');
-		$customerEmail = $this->input->post('customerEmail');		
+		$customerEmail = $this->input->post('customerEmail');
 		$customerReferral = $this->input->post('customerReferral');
 		$specials = $this->input->post('specials');
 		$customerAlternatives = $this->input->post('customerAlternatives');
 		$customerDate = date('Y-m-d');
 		$adminInit = "MB";
-		
+
 		// Booking data
 		$propertyCode = $this->input->post('propertyCode');
 		$fromDate = $this->input->post('fromDate');
@@ -306,23 +306,23 @@ class Booking extends Controller
 		$chargeAmount = $this->input->post('chargeAmount');
 		$chargePurpose = $this->input->post('chargePurpose');
 		$commissionPercentage = $this->input->post('commissionPercentage');
-		
+
 		// General booking data
         $enquiryDate = date('Y-m-d');
         $bookingDate = date('Y-m-d');
         $bookingStatus = 'PAYMNT';
 		$adminInit = 'MB';
 		$sourceCode = 'ADMIN';
-		
+
 		// Control info from conflict view
 		$replace_customer_name = $this->input->post('replace_customer_name');
 		$replace_customer_landphone = $this->input->post('replace_customer_landphone');
 		$replace_customer_mobile = $this->input->post('replace_customer_mobile');
 		$replace_customer_address = $this->input->post('replace_customer_address');
-		
+
 		// Sort out which fields have to be updated
 		// If email has changed then forget all that and just add a new customer with new data
-			
+
 		if($newCustomerEmail == $customerEmail)
 		{
 			if($replace_customer_name == 'yes')
@@ -356,7 +356,7 @@ class Booking extends Controller
 			if($chargePurpose !='')
 			{
 				$chargeId = $this->charges_model->add_charge($bookingNumber,$chargePurpose,$chargeAmount);
-			}			
+			}
 			$paymentId = $this->payment_model->add_payment($bookingNumber,$paymentPurpose,$paymentMethod,$paymentAmount,$paymentRef);
 			$data['query'] = $this->booking_model->get_booking_by_booking_number($bookingNumber);
 			$data['payments'] = $this->payment_model->get_payments_by_booking_number($bookingNumber);
@@ -366,10 +366,10 @@ class Booking extends Controller
 			$headerView = $this->global_model->get_standard_header_view();
 			$this->load->view('bookings/edit_booking_controlbar_view',$data);
 			$this->load->view('bookings/edit_view',$data);
-			$this->load->view('footer_view');					
+			$this->load->view('footer_view');
 	}
 
-/*	UPDATE A BOOKING*/	
+/*	UPDATE A BOOKING*/
 	function update_booking()
 	{
 		// First check to see if booking is being cancelled
@@ -391,7 +391,7 @@ class Booking extends Controller
 		$customerMobile = $this->input->post('customerMobile');
 		$customerReferral = $this->input->post('customerReferral');
 		$customerDate = date('Y-m-d');
-		
+
 		// Booking data to update booking file
 		$bookingNumber = $this->input->post('bookingNumber');
 		$customerReferral = $this->input->post('customerReferral');
@@ -422,12 +422,12 @@ class Booking extends Controller
 		// Re-do the math if we are cancelling
 		if($cancelStatus == 'CANCELLED') {
 			$accommCost = 0;
-			$bookingDiscount = 0;		
+			$bookingDiscount = 0;
 		}
-		
+
 		// Start the math
 		$customerPrice = $accommCost + $bookingFee + $customerTotalCharges - $bookingDiscount;
-		$customerBalance = $customerPrice - $customerTotalPaid;	
+		$customerBalance = $customerPrice - $customerTotalPaid;
 		$commissionableCost = $accommCost - $bookingDiscount;
 		$commissionAmount = ($commissionableCost * $commissionPercentage)/100;
 		$vatAmount = ($commissionAmount * $vatPercentage)/100;
@@ -438,10 +438,10 @@ class Booking extends Controller
 		$ownerPaidDate = $this->input->post('ownerPaidDate');
 		$ownerReference = $this->input->post('ownerReference');
 		$ownerPaymentMethod = $this->input->post('ownerPaymentMethod');
-		$repeatBusiness = $this->input->post('repeatBusiness');	
-		
+		$repeatBusiness = $this->input->post('repeatBusiness');
+
 		$this->customer_model->update_customer($customerNumber,$customerName,$customerSurname,$customerCompanyId,$customerLandphone,$customerMobile,$customerEmail,$customerCountry,$customerAddress,$customerReferral,$customerDate);
-		
+
 		$result = $this->booking_model->update_booking($bookingNumber,$customerReferral,$propertyList,$customerSpecials,$fromTime,$adults,$children,$infants,$toTime,$cot,$highchair,$bookingNotes,$bookingFee,$accommCost,$customerPrice,$customerBalance,$commissionableCost,$commissionPercentage,$commissionAmount,$vatAmount,$agentFee,$ownerBalance,$ownerPaid,$ownerPaidDate,$ownerReference,$ownerPaymentMethod,$repeatBusiness,$bookingStatus);
 
 		$data['query'] = $this->booking_model->get_booking_by_booking_number($bookingNumber);
@@ -482,7 +482,7 @@ class Booking extends Controller
 		$chargeAmount = $this->input->post('chargeAmount');
 		$chargeAllocation = $this->input->post('chargeAllocation');
 		$vatPercentage = $this->input->post('vatPercentage');
-		
+
 		// Incoming fields for math
 		$accommCost = $this->input->post('accommCost');
 		$bookingFee = $this->input->post('bookingFee');
@@ -494,10 +494,10 @@ class Booking extends Controller
 		$bookingDiscount = $this->input->post('bookingDiscount');
 		$customerTotalPaid = $this->input->post('customerTotalPaid');
 		$commissionPercentage = $this->input->post('commissionPercentage');
-		
+
 		// Start the math
 		$customerPrice = $accommCost + $bookingFee + $customerTotalCharges - $bookingDiscount;
-		$customerBalance = $customerPrice - $customerTotalPaid;	
+		$customerBalance = $customerPrice - $customerTotalPaid;
 		$commissionableCost = $accommCost - $bookingDiscount;
 		$commissionAmount = ($commissionableCost * $commissionPercentage)/100;
 		$agentFee = $bookingFee + $commissionAmount;
@@ -555,8 +555,8 @@ class Booking extends Controller
 				break;
 			case 'cancelled';
 				$searchCriteria="bookingStatus = 'CANCELLED'";
-	    		$heading = 'Cancelled bookings';    		
-				break;										    		
+	    		$heading = 'Cancelled bookings';
+				break;
 	    	default:
 	    	    $heading = 'All sales';
 	    		$searchCriteria="bookingStatus = 'PAYMNT'";
@@ -573,7 +573,7 @@ class Booking extends Controller
 		$data['yearCombo'] = $this->global_model->get_year_combo($startYear, 10, $year);
 		$headerView = $this->global_model->get_standard_header_view();
 		$this->load->view('bookings/bookings_list_view',$data);
-		$this->load->view('footer_view');		
+		$this->load->view('footer_view');
 	}
 
 /*	SEND CUSTOMER BOOKING NOTIFICATIONS */
@@ -585,7 +585,7 @@ class Booking extends Controller
 	$data['emailOpener'] = $this->comms_model->get_email_opener();
 	$data['emailHeader'] = $this->comms_model->get_email_header();
 	$data['emailFooter'] = $this->comms_model->get_email_footer();
-	$data['emailCloser'] = $this->comms_model->get_email_closer(); 
+	$data['emailCloser'] = $this->comms_model->get_email_closer();
 	$data['query'] = $this->booking_model->get_booking_by_booking_number($bookingNumber);
 	$headerView = $this->global_model->get_standard_header_view();
 	$this->load->view('bookings/customer_notification_email_view',$data);
@@ -603,7 +603,7 @@ class Booking extends Controller
 	$data['emailOpener'] = $this->comms_model->get_email_opener();
 	$data['emailHeader'] = $this->comms_model->get_email_header();
 	$data['emailFooter'] = $this->comms_model->get_email_footer();
-	$data['emailCloser'] = $this->comms_model->get_email_closer(); 
+	$data['emailCloser'] = $this->comms_model->get_email_closer();
 	$data['query'] = $this->booking_model->get_booking_by_booking_number($bookingNumber);
 	$headerView = $this->global_model->get_standard_header_view();
 	$this->load->view('bookings/owner_notification_email_view',$data);
@@ -611,7 +611,7 @@ class Booking extends Controller
 	}
 
 
-/*	EDIT BOOKING */	
+/*	EDIT BOOKING */
 	function edit_booking($bookingNumber)
 	{
 		$data['heading'] = 'Edit Booking';
@@ -630,10 +630,10 @@ class Booking extends Controller
 		$headerView = $this->global_model->get_standard_header_view();
 		$this->load->view('bookings/edit_booking_controlbar_view',$data);
 		$this->load->view('bookings/edit_view',$data);
-		$this->load->view('footer_view');	
+		$this->load->view('footer_view');
 	}
 
-/*	VIEW BOOKING */	
+/*	VIEW BOOKING */
 	function view_booking($bookingNumber)
 	{
 		$data['heading'] = 'View Booking';
@@ -648,11 +648,11 @@ class Booking extends Controller
 		$data['ownerTotCharges'] = $this->charges_model->get_owner_total_charges_for_booking($bookingNumber);
 		$data['commissionCombo'] = $this->global_model->get_commission_combo();
 		$referral = $currentQuery[0]->customer_referral;
-		$data['referralCombo'] = $this->global_model->get_referral_combo($referral);		
+		$data['referralCombo'] = $this->global_model->get_referral_combo($referral);
 		$headerView = $this->global_model->get_standard_header_view();
 		$this->load->view('bookings/edit_booking_controlbar_view',$data);
 		$this->load->view('bookings/booking_view',$data);
-		$this->load->view('footer_view');	
+		$this->load->view('footer_view');
 	}
 
 /*	UPDATE A SALE*/
@@ -690,14 +690,14 @@ class Booking extends Controller
 		$reminderSent = $this->input->post('reminderSent');
 		$checkinSent = $this->input->post('checkinSent');
 		$ownerNotified = $this->input->post('ownerNotified');
-		$repeatBusiness = $this->input->post('repeatBusiness');		
+		$repeatBusiness = $this->input->post('repeatBusiness');
 		$rxTransId = $this->input->post('rxTransId');
-		
+
 		$result = $this->booking_model->update_sale_by_id($bookingId,$customerReferral,$propertyList,$fromTime,$adults,$children,$infants,$toTime,$cot,$highchair,$bookingNotes,$accommCost,$bookingDiscount,$bookingFee,$customerPrice,$customerTotalPaid,$customerTotalCharges,$customerBalance,$commissionableCost,$commissionPercentage,$commissionAmount,$agentFee,$ownerBalance,$ownerPaidDate,$ownerReference,$ownerPaymentMethod,$balanceDue,$ownerNotifiedDate,$reminderSent,$checkinSent,$ownerNotified,$repeatBusiness,$bookingStatus,$rxTransId);
 
 		$data['query'] = $this->booking_model->get_sale_by_booking_id($bookingNumber);
 		$this->edit_sale($bookingId);
-	}	
+	}
 
 
 /*	RESET PAYMENTS */
@@ -710,7 +710,7 @@ class Booking extends Controller
 			$this->booking_model->put_payment($item->bookingNumber,$totalPayment);
 		}
 	}
-	
+
 /*	RESET CHARGES */
 	function reset_charges()
 	{
@@ -735,17 +735,17 @@ class Booking extends Controller
 			$bookingDiscount = $item->bookingDiscount;
 			$customerTotalPaid = $item->customerTotalPaid;
 			$commissionPercentage = $item->commissionPercentage;
-			
+
 			// Start the math
 			$customerPrice = $accommCost + $bookingFee + $customerTotalCharges - $bookingDiscount;
-			$customerBalance = $customerPrice - $customerTotalPaid;	
+			$customerBalance = $customerPrice - $customerTotalPaid;
 			$commissionableCost = $accommCost - $bookingDiscount +  $customerTotalCharges;
 			$commissionAmount = ($commissionableCost * $commissionPercentage)/100;
 			$agentFee = $bookingFee + $commissionAmount;
 			$ownerBalance = $commissionableCost - $commissionAmount;
-			
+
 			$this->booking_model->clean_up($item->bookingNumber,$customerPrice,$customerBalance,$commissionableCost,$commissionAmount,$agentFee,$ownerBalance);
-			
+
 		}
 	}
 
@@ -766,7 +766,7 @@ class Booking extends Controller
 		foreach ($query->result() as $item)
 		{
 			$customerNotificationStatus = explode('|',$item->customerNotificationStatus);
-			$ownerNotificationStatus = explode('|',$item->ownerNotificationStatus);		
+			$ownerNotificationStatus = explode('|',$item->ownerNotificationStatus);
 
 
 			if ($item->customerBalance >= '1' and $item->ownerReference == '')
@@ -781,22 +781,22 @@ class Booking extends Controller
 			{
 				$bookingStatus = 'ZEROBAL-NOREF'; // (paid in full)
 			}
-			
+
 			if ($item->customerBalance == '0' and $item->ownerReference != '' and ($customerNotificationStatus[2] == 'CRN' OR $ownerNotificationStatus[2] == 'ORN' and $item->ownerPaid =='no'))
 			{
 				$bookingStatus = 'ZEROBAL-REF'; // (reference obtained)
 			}
-			
+
 			if ($item->customerBalance == '0' and $item->ownerReference != '' and ($customerNotificationStatus[2] == 'CRS' and $ownerNotificationStatus[2] == 'ORS' and $item->ownerPaid =='no'))
 			{
 				$bookingStatus = 'ZEROBAL-REF-CHK'; // (instructions sent)
 			}
-			
+
 			if ($item->customerBalance == '0' and $item->ownerReference != '' and $customerNotificationStatus[2] == 'CRS' and $item->ownerPaid == 'yes')
 			{
 				$bookingStatus = 'ZEROBAL-REF-CHK-OWNER'; // (owner paid)
 			}
-			
+
 			if ($item->bookingStatus == 'CANCELLED')
 			{
 				$bookingStatus = 'CANCELLED'; // cancelled
