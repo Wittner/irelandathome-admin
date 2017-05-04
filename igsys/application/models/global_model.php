@@ -32,7 +32,7 @@ class Global_model extends Model
             return false;
         }
     }
-    
+
     function is_logged_in() // checks if user is logged in or not
     {
         $is_logged_in = $this->session->userdata('is_logged_in');
@@ -41,14 +41,14 @@ class Global_model extends Model
             redirect('login');
         }
     }
-    
+
     function toLongDate($sqlDate)
     {
         // Convert sql format dates to long display date (e.g. 2007-06-05 passed in, 5th June 2007 passed out)
         $date_elements = explode("-", $sqlDate);
         // date("M-d-Y", mktime(0, 0, 0, 12, 32, 1997));
         $display_date = date("D, M jS, Y", mktime(0,0,0, $date_elements[1], $date_elements[2], $date_elements[0]));
-        return $display_date;       
+        return $display_date;
     }
 
     function toDisplayDate($sqlDate)
@@ -66,7 +66,7 @@ class Global_model extends Model
         $display_date = $date_elements[2] . "-" . $date_elements[1] . "-" . $date_elements[0];
         return $display_date;
     }
-    
+
     function toSqlDateFromSlashes($shortDate)
     {
         // Convert short date with slashes to sql format date (e.g. 05/06/2007 passed in, 2007-06-05 passed out)
@@ -87,14 +87,14 @@ class Global_model extends Model
         $end_date = gregoriantojd($date_parts2[1], $date_parts2[2], $date_parts2[0]);
         return $end_date - $start_date;
     }
-    
+
     function getMonthNameFromNumber($monthNumber)
     {
         $year = date('Y');
         $checkDate = date("M", mktime(0,0,0, $monthNumber, 1, $year));
         return $checkDate;
     }
-    
+
     function get_latest_booking_fee()
     {
         // Get latest booking fee amount from db
@@ -105,7 +105,7 @@ class Global_model extends Model
         }
         return $bookingFee;
     }
-    
+
     function get_latest_booking_number()
     {
         // Get latest booking number from db
@@ -119,7 +119,7 @@ class Global_model extends Model
         $query = $this->db->query("update seeds set booking_seed='$newBookingNumber'");
         return $bookingNumber;
     }
-    
+
     function get_latest_customer_number()
     {
         // Get latest customer number amount from db
@@ -133,7 +133,7 @@ class Global_model extends Model
         $query = $this->db->query("update seeds set customer_seed='$newCustomerNumber'");
         return $customerNumber;
     }
-    
+
     function data_transfer_bookings()
     // This method takes the old bookings table and transfers the payment data to the new payments table
     {
@@ -146,7 +146,7 @@ class Global_model extends Model
                                     payment1_amount,
                                     payment1_purpose,
                                     payment1_ref,
-                                    
+
                                     payment2_ref,
                                     payment2_method,
                                     payment2_due_date,
@@ -154,7 +154,7 @@ class Global_model extends Model
                                     payment2_amount,
                                     payment2_purpose,
                                     payment2_ref,
-                                    
+
                                     payment3_ref,
                                     payment3_method,
                                     payment3_due_date,
@@ -162,7 +162,7 @@ class Global_model extends Model
                                     payment3_amount,
                                     payment3_purpose,
                                     payment3_ref,
-                                    
+
                                     payment4_ref,
                                     payment4_method,
                                     payment4_due_date,
@@ -175,9 +175,9 @@ class Global_model extends Model
                                     from bookings
                                     where (deposit_amount > 0 || final_payment_amount >0)
                                     and (payment1_amount <> 0 || payment2_amount <> 0 || payment3_amount <> 0 || payment4_amount <> 0)
-                                    
-                                    
-                                    
+
+
+
                                     ");
         return $query;
     }
@@ -200,7 +200,7 @@ class Global_model extends Model
 
         return $bookingNumber;
     }
-    
+
     function get_to_date($fromDate,$nights)
     // From a given 'from date' and a number of nights, this method returns the 'to date' and returns it in mysql form Y-m-d
     {
@@ -208,7 +208,7 @@ class Global_model extends Model
         $toDate = date("Y-m-d", mktime(0,0,0,$explodedFromDate[1],$explodedFromDate[2]+$nights,$explodedFromDate[0]));
         return $toDate;
     }
-    
+
     function get_company_data()
     {
         $APP_companyDetails['name'] = 'Ireland at Home';
@@ -218,7 +218,7 @@ class Global_model extends Model
         $APP_companyDetails['baseurl'] = 'http://www.ckghosting.com/iahadmin/';
         $APP_companyDetails['imageurl'] = 'http://www.irelandathome.com/images';
         $APP_companyDetails['infodocsurl'] = 'http://www.irelandathome.com/infodocs/';
-        $APP_companyDetails['imageurl'] = 'http://www.irelandathome.com/images/';
+        $APP_companyDetails['imageurl'] = 'https://www.ckghosting.com/';
         $APP_companyDetails['signoff'] = '
         <p>
         Contact Ireland at Home<br />
@@ -231,10 +231,10 @@ class Global_model extends Model
         </p>
         ';
         $APP_companyDetails['currency'] = 'Euro';
-        
+
         return $APP_companyDetails;
     }
-    
+
 /* GET A COUNTRY DROP DOWN */
     // Get a list of live properties for a combo box display
     function get_country_combo($countryCode)
@@ -251,7 +251,7 @@ class Global_model extends Model
         }
         return $output;
     }
-    
+
 /* GET A COUNTY DROP DOWN */
     // Get a list of live counties for a combo box display
     function get_county_combo($countyCode)
@@ -268,7 +268,7 @@ class Global_model extends Model
         }
         return $output;
     }
-    
+
 /*  GET COUNTRY BY ID */
     function get_country_by_id($countryId)
     {
@@ -307,7 +307,7 @@ class Global_model extends Model
             $output .= '>' . $row->referral_name . '</option>';
         }
         return $output;
-    }   
+    }
 
 /* GET A OWNER COMMISSION DROP DOWN */
     // Get a list of commission amounts for a combo box display
@@ -333,27 +333,27 @@ class Global_model extends Model
     {
         date_default_timezone_set('UTC');
         $yearCombo = '';
-        
+
         // Check start year
         if($startYear <= 0) {
             $initialDate = date('Y');
         }else{
             $initialDate = $startYear;
         }
-        
+
         // Check amount of years out
         if($years <= 0) {
             $years = 10;
         }
-    
+
         // Check 'selected' value for combo
         if($selected <= 0) {
             $selected = $initialDate;
         }
-    
+
         // Create the combo
         $endDate = $initialDate + $years;
-        
+
         for($i=$initialDate; $i <= $endDate; $i++) {
             if($i == $selected){
                 $yearCombo .= '<option value="' . $i . '" selected>' .$i. '</option>' . "\n";
@@ -391,7 +391,7 @@ class Global_model extends Model
         }
         return $notices;
     }
-        
+
 /*  GET SALES MARQUEE */
     function get_sales_marquee()
     {
@@ -427,7 +427,7 @@ class Global_model extends Model
     }
 
     function iah_api_fetch($method)
-    {       
+    {
         $remoteServerPath = 'http://www.irelandathome.com/rpc/iahapi/';
         //$remoteServerPath = 'http://localhost/~mikeb/iah-rpc/rpc/index.php/iahapi/';
         $requestPath = $remoteServerPath.$method;
@@ -436,7 +436,7 @@ class Global_model extends Model
         $jsonResult = curl_exec($rpc_request);
         return $jsonResult;
     }
-    
+
     function get_holiday_data()
     {
         // Get holiday dates and wrap in a table
@@ -468,7 +468,7 @@ class Global_model extends Model
         }
         return $result;
     }
-    
+
     function get_holiday_dropdown()
     {
         // Get holiday dates and wrap in a table
@@ -499,7 +499,7 @@ class Global_model extends Model
         {
             $result = '<select name="holiday" id="holiday"><option>None</option></select>';
         }
-        return $result; 
+        return $result;
     }
 
     function get_current_vat_rate() {
