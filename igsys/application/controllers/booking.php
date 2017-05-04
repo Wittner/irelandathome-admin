@@ -430,7 +430,6 @@ class Booking extends Controller
 		$commissionableCost = $accommCost - $bookingDiscount;
 		$commissionAmount = ($commissionableCost * $commissionPercentage)/100;
 		$vatAmount = ($commissionAmount * $vatPercentage)/100;
-		echo "VAT: " . $vatAmount;
 		$agentFee = $bookingFee + $commissionAmount;
 		$ownerBalance = $commissionableCost - $commissionAmount - $vatAmount + $ownerTotalCharges;
 

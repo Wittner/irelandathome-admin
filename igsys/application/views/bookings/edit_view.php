@@ -25,6 +25,8 @@ if($ownerChargesOutput != ''){
 <?
 /* SET THE OWNER PAID DATE */
 
+echo $row->vatRate;
+
 if($row->ownerPaidDate == '0000-00-00')
 {
 	$displayOwnerPaidDate = date('Y-m-d');
