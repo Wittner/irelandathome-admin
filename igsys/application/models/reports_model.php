@@ -575,7 +575,7 @@ class Reports_model extends Model
 			<th>HC</th>
       <th>Referral</th>
 		</tr>';
-		$this->db->select('*, bookings.cot as cotNeeded');
+		$this->db->select('*, bookings.cot as cotNeeded, bookings.highchair as bookingsHighchair');
 		$this->db->from('bookings');
 		$this->db->join('customers','customers.customer_number = bookings.customerNumber');
 		$this->db->join('properties','bookings.propertyCode = properties.property_code');
@@ -615,7 +615,7 @@ class Reports_model extends Model
 				. '<td class="' . $col . '">' . $item->children . '&nbsp;</td>'
 				. '<td class="' . $col . '">' . $item->infants . '&nbsp;</td>'
 				. '<td class="' . $col . '">' . $item->cotNeeded . '&nbsp;</td>'
-				. '<td class="' . $col . '">' . $item->highchair . '&nbsp;</td>'
+				. '<td class="' . $col . '">' . $item->bookingsHighchair . '&nbsp;</td>'
         . '<td class="' . $col . '">' . $item->customerReferral . '&nbsp;</td>';
 			}
 		$output .= '</table>';
