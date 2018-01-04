@@ -116,7 +116,7 @@ $company_name = $news_data['name'];
 $salesData = $this->sales_model->get_sales_marquee();
 if ($salesData != '')
 {
-echo '<marquee>' . $salesData . '</marquee>';	
+echo '<marquee>' . $salesData . '</marquee>';
 }
 ?>
 <!-- Sales ticker end -->
@@ -177,6 +177,7 @@ echo '<marquee>' . $salesData . '</marquee>';
 <li><a href="index.php/reports/arrivals_input" title="">Arrivals</a></li>
 <li><a href="index.php/reports/sales_by_arrival_date_input" title="">Sales report (X arrival date)</a></li>
 <li><a href="index.php/reports/sales_by_booking_date_input" title="">Sales report (X booking date)</a></li>
+<li><a href="index.php/reports/sales_by_departure_date_input" title="">Sales report (X departure date)</a></li>
 <li><a href="index.php/reports/cancelled_sales_input" title="">Cancelled sales (X arrival date)</a></li>
 <li><a href="index.php/reports/cancelled_sales_booking_input" title="">Cancelled sales (X booking date)</a></li>
 <li><a href="index.php/reports/unpaid_owners_input" title="">Unpaid owners</a></li>

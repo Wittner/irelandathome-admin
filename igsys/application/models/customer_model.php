@@ -8,17 +8,17 @@ class Customer_model extends Model
         $this->load->model('global_model');
     }
 
-/*	GET CUSTOMER BY NUMBER */    
+/*	GET CUSTOMER BY NUMBER */
 	function get_customer_by_number($customerNumber)
 	{
 		$this->db->select('*');
 		$this->db->from('customers');
 		$this->db->where('customer_number', $customerNumber);
-		$query = $this->db->get();	
+		$query = $this->db->get();
 		return $query;
 	}
-	
-/*	CHECK CUSTOMER EXISTS */	
+
+/*	CHECK CUSTOMER EXISTS */
 	function customer_exist($customerEmail)
     // Returns customer_number if customer exists
     {
@@ -36,10 +36,10 @@ class Customer_model extends Model
     	}
     	return $customerNumber;
     }
-    
+
     function find_customer($searchBy,$keyword)
     {
-		
+
 		switch ($search_by)
 		{
 			case "name":
@@ -50,7 +50,7 @@ class Customer_model extends Model
 				and customer_status !='DEL'
 				";
 			break;
-			
+
 			case "surname":
 				$sql="
 				select *
@@ -59,7 +59,7 @@ class Customer_model extends Model
 				and customer_status !='DEL'
 				";
 			break;
-			
+
 			case "cusno":
 				$sql="
 				select *
@@ -68,7 +68,7 @@ class Customer_model extends Model
 				and customer_status !='DEL'
 				";
 			break;
-			
+
 			case "email":
 				$sql="
 				select *
@@ -77,12 +77,12 @@ class Customer_model extends Model
 				and customer_status !='DEL'
 				";
 			break;
-			
+
 			default:
 			$display_block .="<a href=\"check_cus_deposit_notify.php?booking_id=$booking_id\"><img src=\"env_open.png\" border=\"0\"  alt=\"Send customer notification\"></a>&nbsp;<a href=\"check_owner_deposit_notify.php?booking_id=$booking_id\"><img src=\"env_open.png\" border=\"0\"  alt=\"Send owner notification\"></a>&nbsp;";
 		}
     }
-    
+
 /* 	LIST CUSTOMERS */
 	function list_customers()
 	{
@@ -91,8 +91,9 @@ class Customer_model extends Model
         $output = '<table width="100%" border="0"><tr><th>Number</th><th>Name</th><th>Phone</th><th>Mobile</th><th>Email</th><th>Date</th><th colspan="5">Action</th></tr>';
 		$this->db->select('*');
 		$this->db->from('customers');
-		$this->db->where("customer_status='QUERY1'");
+		$this->db->where('customer_status', 'QUERY1');
 		$this->db->order_by('customer_id','desc');
+    $this->db->limit(10);
 		$query = $this->db->get();
 		if ($query->num_rows() > 0)
 		{
@@ -101,7 +102,7 @@ class Customer_model extends Model
                 $i = $i + 1;
                 $col = ($i % 2) ? 'hilite' : 'lowlite';
                 $output .= '<tr>' .
-					'<td class="' . $col . '">' . $item->customer_number .'&nbsp;</td>' . 
+					'<td class="' . $col . '">' . $item->customer_number .'&nbsp;</td>' .
 					'<td class="' . $col . '">' . $item->customer_name . ' ' . $item->customer_surname . '&nbsp;</td>' .
                     '<td class="' . $col . '">' . $item->customer_landphone . '&nbsp;</td>' .
                     '<td class="' . $col . '">' . $item->customer_mobile . '&nbsp;</td>' .
@@ -111,7 +112,7 @@ class Customer_model extends Model
 					.='<td width="15"><a href="index.php/customers/edit_customer/' . $item->customer_number .'"><img src="images/app/edit.gif" border="0" width="20" height="20" title="Edit this customer record"/></a></td>'
 					. '<td width="15"><a href="index.php/customers/delete_customer/' . $item->customer_number . '"><img src="images/app/delete.gif" border="0" width="20" height="20" title="Delete this customer"/></a></td>'
 					. '<td width="15"><a href="index.php/sales/create_customer_sale/' . $item->customer_number . '"><img src="images/app/makesale.gif" border="0" width="20" height="20" title="Create sale for this customer"/></a></td>'
-					. '<td width="15"><a href="index.php/search/customer_sales/' . $item->customer_number . '"><img src="images/app/listsales.gif" border="0" width="20" height="20" title="View customer sales"/></a></td>'														
+					. '<td width="15"><a href="index.php/search/customer_sales/' . $item->customer_number . '"><img src="images/app/listsales.gif" border="0" width="20" height="20" title="View customer sales"/></a></td>'
 					. '</tr>';
             }
         } else {
@@ -137,9 +138,9 @@ class Customer_model extends Model
 		'customer_email' => $customerEmail,
 		'customer_referral' => $customerReferral);
 		$this->db->where('customer_number', $customerNumber);
-		$this->db->update('customers', $data); 
+		$this->db->update('customers', $data);
 		return $customerNumber;
-	}    
+	}
 
 /*	ADD CUSTOMER */
     function add_customer($customerName,$customerSurname,$customerLandphone,$customerMobile,$customerEmail,$customerCountry,$customerAddress,$customerReferral,$customerDate,$customerCompanyId)
@@ -147,11 +148,11 @@ class Customer_model extends Model
         // Add a new customer
 		// First get latest customer number from seed table
 		$customerNumber = $this->global_model->get_latest_customer_number();
-		
+
 		// Set a creation date for customer
 		$customerDate = date('Y-m-d');
-			
-		// Create new entry in customer file			
+
+		// Create new entry in customer file
 		$data = array(
 		'customer_id' => '',
 		'customer_date' => $customerDate,
@@ -166,10 +167,10 @@ class Customer_model extends Model
 		'customerCompanyId' => $customerCompanyId,
 		'customer_referral' => $customerReferral);
 		$this->db->insert('customers', $data);
-		
+
 		$customerId = $this->db->insert_id();
-		return $customerNumber; 
+		return $customerNumber;
     }
-    
+
 }// End of Class
 ?>

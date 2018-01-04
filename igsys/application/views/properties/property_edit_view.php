@@ -50,11 +50,18 @@ else
 </tr>
 
 <tr>
-	<td class="normal" align="right"><b>Type</b></td>
+	<td class="normal" align="right"><b>Type:</b></td>
 	<td class="normal" align="left">
 	<select name="property_type">
 		<?=$property_type_combo;?>
 	</select>
+	</td>
+</tr>
+
+<tr>
+	<td class="normal" align="right"><b>Availability management</b></td>
+	<td class="normal" align="left">
+		<input type="checkbox" name="iah_availability"<?php if($row->iah_availability == 'on'){echo ' checked';}?>> IAH managed
 	</td>
 </tr>
 
@@ -241,8 +248,10 @@ else
 
 <tr>
 	<td class="normal" align="right"><b>Strap line:</b></td>
-	<td class="normal" align="left"><input type="text" name="strapline" size="45" value="<?$row->strapline;?>"></td>
+	<td class="normal" align="left"><input class="strap" style="font-family: monospace;" type="text" name="strapline" size=50 value="<?=$row->strapline;?>">[<span class="char-count"></span>]</td>
 </tr>
+
+
 
 <tr>
 	<td class="normal" align="right"><b>Capacity:</b></td>
@@ -353,13 +362,21 @@ else
 </tr>
 
 <tr>
-	<td class="normal" align="right" valign="top"><b>This Property:</b></td>
+	<td class="normal" align="right" valign="top"><b>This Property (Leisure):</b></td>
 	<td class="normal" align="left">
 		<textarea name="property_intro" id="property_intro" rows="10" cols="80"><?= $row->property_intro; ?></textarea>
 		<script>
 			CKEDITOR.replace('property_intro');
 		</script>
+</tr>
 
+<tr>
+	<td class="normal" align="right" valign="top"><b>This Property (Corporate):</b></td>
+	<td class="normal" align="left">
+		<textarea name="property_intro_corporate" id="property_intro_corporate" rows="10" cols="80"><?= $row->property_intro_corporate; ?></textarea>
+		<script>
+			CKEDITOR.replace('property_intro_corporate');
+		</script>
 </tr>
 
 <tr>
@@ -863,3 +880,24 @@ else
 
 </div>
 <?php endforeach; ?>
+
+<!--
+<td class="normal" align="left"><input class="strap" style="font-family: monospace;" type="text" name="strapline" size=50 value="<?=$row->strapline;?>">[<span class="char-count"></span>]</td>
+-->
+
+<script type="text/javascript">
+	$( document ).ready(function() {
+		var value = $('.strap').val();
+		$('.char-count').html(value.length);
+
+		$('.strap').live('input', function() {
+			var value = $(this).val();
+			$('.char-count').html(value.length);
+			if(value.length >= 51) {
+				$('.char-count').css({'color': 'red'});
+			}else{
+				$('.char-count').css({'color': 'black'});
+			}
+		});
+	});
+</script>

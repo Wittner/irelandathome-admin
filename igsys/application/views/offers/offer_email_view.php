@@ -9,7 +9,7 @@ $companyDetails = $this->global_model->get_company_data();
 // SEND CUSTOMER OFFER VIEW
 // Set email headers
 $emailFrom = $companyDetails['name'];
-$emailSubject = 'Ireland At Home Accommodation Offer';
+$emailSubject = 'Accommodation requirement response';
 
 // Set email intro
 $introOutput  = '<p>Dear, ' . $row->customer_name . ' ' . $row->customer_surname . '</p>';

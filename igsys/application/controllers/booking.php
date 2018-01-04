@@ -511,15 +511,15 @@ class Booking extends Controller
 /*	LIST BOOKINGS */
 	function list_bookings($status)
 	{
-        if(isset($_POST['month'])) {
+      if(isset($_POST['month'])) {
 			$month = $this->input->post('month');
 		}else{
-            $month = date('m');
+      $month = date('m');
 		}
-        if(isset($_POST['year'])) {
+      if(isset($_POST['year'])) {
 			$year = $this->input->post('year');
 		}else{
-            $year = date('Y');
+      $year = date('Y');
 		}
 		$monthName = $this->global_model->getMonthNameFromNumber($month);
 

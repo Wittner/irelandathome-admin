@@ -139,7 +139,7 @@ class Comms extends Controller
       $to = $this->input->post('toAddress');
       $to = $to . ', sales@irelandathome.com';
   		$from = 'sales@irelandathome.com';
-  		$subject = 'Ireland At Home Accommodation Offer';
+  		$subject = 'Accommodation requirement response';
       $message = $this->comms_model->iah_get_email_header();
       $message .= $this->comms_model->iah_get_offers_body($recipient, $saleId, $notes);
   		$message .= $this->comms_model->iah_get_offers_footer();
@@ -148,47 +148,46 @@ class Comms extends Controller
 
       /*** SMS ***/
   		if($sendSMS == 'yes') {
-        echo 'Sending sms';
-  			//** NEON SMS SERVICE CODE
-  			 $mobileNumber = $mobileNumber;
-  			 $smsMessage	 =	"Ireland at Home";
-  			 $smsMessage	.= "\n\r";
-  			 $smsMessage	.=	"Please check your";
-  			 $smsMessage	.= "\n\r";
-  			 $smsMessage	.=	"e-mail for information";
-  			 $smsMessage	.= "\n\r";
-  			 $smsMessage	.=	"on your";
-  			 $smsMessage	.= "\n\r";
-  			 $smsMessage	.=	"accommodation enquiry.";
-  			 $smsMessage	.= "\n\r";
-  			 $smsMessage	.=	"If not at your PC call us,";
-  			 $smsMessage	.= "\n\r";
-  			 $smsMessage	.=	"0404 64608";
-  			 $smsMessage	.= "\n\r";
-  			 $smsMessage	.=	"(Int +353 404 64608)";
-  			 $smsMessage	.= "\n\r";
-  			 $smsMessage	.=	"to discuss.";
-  			 $smsMessage = urlencode($smsMessage);
+        echo 'Sending sms<br><br>';
+        //** NEON SMS SERVICE CODE
+        $mobileNumber = $mobileNumber;
+        $smsMessage	 =	"Ireland at Home";
+        $smsMessage	.= "\n\r";
+        $smsMessage	.=	"Please check your";
+        $smsMessage	.= "\n\r";
+        $smsMessage	.=	"e-mail for information";
+        $smsMessage	.= "\n\r";
+        $smsMessage	.=	"on your";
+        $smsMessage	.= "\n\r";
+        $smsMessage	.=	"accommodation enquiry.";
+        $smsMessage	.= "\n\r";
+        $smsMessage	.=	"If not at your PC call us,";
+        $smsMessage	.= "\n\r";
+        $smsMessage	.=	"0404 64608";
+        $smsMessage	.= "\n\r";
+        $smsMessage	.=	"(Int +353 404 64608)";
+        $smsMessage	.= "\n\r";
+        $smsMessage	.=	"to discuss.";
+        $smsMessage = urlencode($smsMessage);
 
-  			 $username="Wittner";
-  			 // $password="52w3l5fkzdw9";
-  			 $password="0cydlcsv7cxq";
+        $username="Wittner";
+        $password="0cydlcsv7cxq";
 
-  			 $baseurl="http://api.neonsolutions.ie";
-  			 $url=$baseurl."/sms.php?user=$username&clipwd=$password&text=$smsMessage&to=$mobileNumber";
+        $baseurl="http://api.neonsolutions.ie";
+        $url=$baseurl."/sms.php?user=$username&clipwd=$password&text=$smsMessage&to=$mobileNumber";
 
-  			 $return=file($url);
+        $smssResult = $this->comms_model->send_neon_sms($url);
+        $smsStatus = explode(":", $smssResult);
+        if($smsStatus[0] == 'OK') {
+          $msgid = trim($smsStatus[1]);
+          $smsResultMessage = "<strong>SMS message id:</strong> " . $msgid . " successfully sent to <strong>" . $mobileNumber . "</strong><br>";
+        }else{
+          $error = trim($smsStatus[1]);
+          $smsResultMessage = "There was an error sending the SMS message. " . $error . "<br>";
+        }
+        echo $smsResultMessage . "<br>";
+      }
 
-  			 $rtrnstr=explode(":",$return[0]);
-  			 if ($rtrnstr[0] == 'OK') {
-  			 $msgid=trim($rtrnstr[1]);
-  			 	$smsResultMessage = "<strong>SMS message id:</strong> " . $msgid . " successfully sent to <strong>" . $mobileNumber . "</strong><br>";
-  			 } else {
-  			 $error=trim($rtrnstr[1]);
-  			 	$smsResultMessage = "There was an error sending the SMS message. " . $error . "<br>";
-  			 }
-         echo $smsResultMessage . "<br>";
-  		}
       echo $offersMessage;
       echo "Finished...<br>";
       echo '<a href="http://www.corporaterentalseurope.com/iahadmin/index.php/sales/edit_sale/' . $saleId . '">Return to sale</a>';

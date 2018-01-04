@@ -302,16 +302,16 @@ class Reports_model extends Model
   		$reportToDate = $this->global_model->toDisplayDate($toDate);
   		$bookingFeeTotal = 0;
   		$customerPriceTotal = 0;
-      $customerNightsTotal = 0;
+          $customerNightsTotal = 0;
   		$ownerBalanceTotal = 0;
   		$commissionTotal = 0;
   		$agentTotal = 0;
   		$agentFeeTotal = 0;
-      $totalOwnerCharges = 0;
-      $totalIahCharges = 0;
-      $ownerChargeGrandTotal = 0;
-      $iahChargeGrandTotal = 0;
-      $vatGrandTotal = 0;
+          $totalOwnerCharges = 0;
+          $totalIahCharges = 0;
+          $ownerChargeGrandTotal = 0;
+          $iahChargeGrandTotal = 0;
+          $vatGrandTotal = 0;
   		$this->db->select('*,toDate as sortdate');
   		$this->db->from('bookings');
   		$this->db->join('customers','customers.customer_number = bookings.customerNumber');
@@ -368,31 +368,38 @@ class Reports_model extends Model
   			$output .= '
               <div class="report-table-wrapper">
   				<table class="report-table">
-          <tr>
-            <th colspan="2">Total bookings: ' . $totalRecords . '</th>
-            <th colspan="12" style="background-color: white">&nbsp;</th>
-          </tr>
+                  <tr>
+                      <th colspan="2">Total bookings: ' . $totalRecords . '</th>
+                      <th colspan="12" style="background-color: white">&nbsp;</th>
   				<tr>
-            <th class="mainhead">IAH ref.</th>
-            <th class="mainhead">Dep. day</th>
-            <th class="mainhead">Dep. date</th>
-            <th class="mainhead">Property</th>
-            <th class="mainhead">Rooms</th>
-            <th class="mainhead">Guest</th>
-            <th class="mainhead">Guest phone</th>
-            <th class="mainhead">Nights</th>
+                      <th class="mainhead report-th">Owner ref.</th>
+                      <th class="mainhead">IAH ref.</th>
+                      <th class="mainhead">Property</th>
+                      <th class="mainhead">Owner</th>
+                      <th class="mainhead">Departure</th>
+                      <th class="mainhead">Arrival</th>
+                      <th class="mainhead">Customer</th>
+                      <th class="mainhead">Referral</th>
+                      <th class="mainhead">Country</th>
+                      <th class="mainhead">Booked</th>
+                      <th class="mainhead">Nights</th>
+                      <th class="mainhead">Price</th>
+                      <th class="mainhead">Commission</th>
+                      <th class="mainhead">Booking fee</th>
+                      <th class="mainhead">VAT</th>
+                      <th class="mainhead">IAH due</th>
+                      <th class="mainhead">Owner charges</th>
+                      <th class="mainhead">IAH charges</th>
+                      <th class="mainhead">Owner due</th>
   				</tr>';
               $rowStyle = 'report-row-light'; // For colouring rows in table
-  			foreach ($query->result() as $item) {
+  			foreach ($query->result() as $item)
+  			{
   				$displayFromDate = $this->global_model->toDisplayDate($item->fromDate);
   				$displayToDate = $this->global_model->toDisplayDate($item->toDate);
   				$displayBookingDate = $this->global_model->toDisplayDate($item->bookingDate);
   				$customerCountry = $this->global_model->get_country_by_id($item->customer_country);
-          $departureDayStamp = strtotime($item->toDate);
-          $departureDay = date('l', $departureDayStamp);
-          $rooms = $item->property_bedrooms;
-          $customerLandPhone = $item->customer_landphone;
-          $customerMobile = $item->customer_mobile;
+
 
   				// Do tot-ups
   				$bookingFeeTotal += $item->bookingFee;
@@ -411,22 +418,31 @@ class Reports_model extends Model
 
                   $output .= '
   				<tr class="' . $rowStyle . '">
-            <td nowrap class="normal">' . $item->bookingNumber . ' &nbsp;</td>
-            <td nowrap class="normal">' . $departureDay . ' &nbsp;</td>
-            <td nowrap class="normal">' . $displayToDate . ' &nbsp;</td>
-            <td nowrap class="normal">' . $item->property_name . ' &nbsp;</td>
-            <td nowrap class="normal">' . $item->property_bedrooms . '&nbsp;</td>
-            <td nowrap class="normal">' . $item->customer_name . ' ' . $item->customer_surname . '&nbsp;</td>
-            <td nowrap class="normal">' . $item->customer_mobile . '&nbsp;</td>
-            <td nowrap class="normal">' . $item->customerNights . ' &nbsp</td>
+                      <td nowrap class="normal">' . $item->ownerReference . ' &nbsp;</td>
+                      <td nowrap class="normal">' . $item->bookingNumber . ' &nbsp;</td>
+                      <td nowrap class="normal">' . $item->property_name . ' &nbsp;</td>
+                      <td nowrap class="normal">' . $item->contact_fname . ' ' . $item->contact_sname . ' &nbsp;</td>
+                      <td nowrap class="normal">' . $displayToDate . ' &nbsp;</td>
+                      <td nowrap class="normal">' . $displayFromDate . ' &nbsp;</td>
+                      <td nowrap class="normal">' . $item->customer_name . ' ' . $item->customer_surname . '&nbsp;</td>
+                      <td nowrap class="normal">' . $item->customerReferral . ' &nbsp;</td>
+                      <td nowrap class="normal">' . $customerCountry . ' &nbsp;</td>
+                      <td nowrap class="normal">' . $displayBookingDate . ' &nbsp</td>
+                      <td nowrap class="normal">' . $item->customerNights . ' &nbsp</td>
+                      <td nowrap class="normal" align="right">' . $item->customerPrice . ' &nbsp</td>
+                      <td nowrap class="normal" align="right">' . $item->commissionAmount . ' &nbsp</td>
+                      <td nowrap class="normal">' . $item->bookingFee . ' &nbsp</td>
+                      <td nowrap class="normal">'.$item->vatAmount.' &nbsp</td>
+                      <td nowrap class="normal" align="right">' . $item->agentFee . ' &nbsp</td>
+                      <td nowrap class="normal">'.$totalOwnerCharges.' &nbsp</td>
+                      <td nowrap class="normal">'.$totalIahCharges.' &nbsp</td>
+                      <td nowrap class="normal" align="right">' . $item->ownerBalance . ' &nbsp</td>
   				</tr>
   				';
                   $rowStyle = ($rowStyle = 'report-row-light' ? 'report-row-light' : 'report-row-dark');
   			 }
                   $output .= '
   				<tr>
-          <td colspan="9">&nbsp;</td>
-          <!--
                       <th class="mainhead" colspan="8"></th>
                       <th class="mainhead" nowrap>Nights</th>
 
@@ -438,14 +454,12 @@ class Reports_model extends Model
                       <th class="mainhead" nowrap>Owner charges</th>
                       <th class="mainhead" nowrap>IAH Charges</th>
                       <th class="mainhead" nowrap>Owner due</th>
-          -->
   				</tr>';
   		$output .='
   				<tr>
-          <td colspan="9">&nbsp;</td>
-          <!--
                       <td valign="top" colspan="8" align="right"><strong>Totals:</strong></td>
                       <td valign="top" align="right">' . $customerNightsTotal . '</td>
+                      <td valign="top" align="right">' . $customerPriceTotal . '</td>
                       <td valign="top" align="right">' . $commissionTotal . '</td>
                       <td valign="top" align="right">' . $bookingFeeTotal . '</td>
                       <td valign="top" align="right">'.$vatGrandTotal.'</td>
@@ -453,7 +467,6 @@ class Reports_model extends Model
                       <td valign="top" align="right">'.$ownerChargeGrandTotal.'</td>
                       <td valign="top" align="right">'.$iahChargeGrandTotal.'</td>
                       <td valign="top" align="right" nowrap>' . $ownerBalanceTotal . '</td>
-          -->
                   </tr>
   				</table>'
   				. $form .'
@@ -477,8 +490,9 @@ class Reports_model extends Model
   	}
 
 
-    /*	REPORT CSV - SALES BY DEPARTURE DATE */
-    	function csv_sales_report_by_departure_date($fromDate,$toDate,$owner_id,$property_code,$customer_country,$source_code,$referrer) {
+    /*	REPORT CSV - SALES BY ARRIVAL DATE */
+    	function csv_sales_report_by_departure_date($fromDate,$toDate,$owner_id,$property_code,$customer_country,$source_code,$referrer)
+    	{
     		$reportFromDate = $this->global_model->toDisplayDate($fromDate);
     		$reportToDate = $this->global_model->toDisplayDate($toDate);
         $customerNightsTotal = 0;
@@ -488,11 +502,11 @@ class Reports_model extends Model
     		$commissionTotal = 0;
     		$agentTotal = 0;
     		$agentFeeTotal = 0;
-        $totalOwnerCharges = 0;
-        $totalIahCharges = 0;
-        $ownerChargeGrandTotal = 0;
-        $iahChargeGrandTotal = 0;
-        $vatGrandTotal = 0;
+            $totalOwnerCharges = 0;
+            $totalIahCharges = 0;
+            $ownerChargeGrandTotal = 0;
+            $iahChargeGrandTotal = 0;
+            $vatGrandTotal = 0;
 
     		$this->db->select('*');
     		$this->db->from('bookings');
@@ -532,20 +546,16 @@ class Reports_model extends Model
         	    $col = ''; // Color style name for alternate coloured <td>'s
                 $totalRecords = $query->num_rows();
 
-          $reportDate = date('d M Y');
-          $output  = "\"REPORT DATE\",\"$reportDate\" \r\n";
-          $output .= "\"TOTAL BOOKINGS\",\"$totalRecords\" \r\n";
-          $output .= '"IAH ref.", "Dep. day", "Dep. date", "Property", "Beds", "Customer", "Phone", "Nights"' . "\r\n";
+        	    $reportDate = date('d M Y');
+                $output  = "\"REPORT DATE\",\"$reportDate\" \r\n";
+                $output .= "\"TOTAL BOOKINGS\",\"$totalRecords\" \r\n";
+        	    $output .= '"Owner ref","IAH ref.","Property","Owner","Departure","Arrival","Customer","Referral","Country","Date booked","Nights","Price","Commission","Booking fee","VAT","IAH due","Owner charges","IAH charges","Owner due"' . "\r\n";
     			foreach ($query->result() as $item)
     			{
     				$displayFromDate = $this->global_model->toDisplayDate($item->fromDate);
     				$displayToDate = $this->global_model->toDisplayDate($item->toDate);
     				$displayBookingDate = $this->global_model->toDisplayDate($item->bookingDate);
     				$customerCountry = $this->global_model->get_country_by_id($item->customer_country);
-
-            $departureDayStamp = strtotime($item->toDate);
-            $departureDay = date('l', $departureDayStamp);
-            $rooms = $item->property_bedrooms;
 
     				// Do tot-ups
             $customerNightsTotal += $item->customerNights;
@@ -555,18 +565,21 @@ class Reports_model extends Model
     				$commissionTotal += $item->commissionAmount;
     				$agentFeeTotal += $item->agentFee;
 
-            // Owner and IAH total charges
-            $totalOwnerCharges = $this->charges_model->get_owner_total_charges_for_booking($item->bookingNumber);
-            $ownerChargeGrandTotal += $totalOwnerCharges;
-            $totalIahCharges = $this->charges_model->get_iah_total_charges_for_booking($item->bookingNumber);
-            $iahChargeGrandTotal += $totalIahCharges;
-            $vatGrandTotal += $item->vatAmount;
-            $output .= '"'.$item->bookingNumber.'","'.$departureDay.'","'.$displayToDate .'","'.$item->property_name.'","'.$rooms.'","'.$item->customer_name.' '.$item->customer_surname.'","'.$item->customer_mobile.'","'.$item->customerNights.'"'."\r\n";
+                    // Owner and IAH total charges
+                    $totalOwnerCharges = $this->charges_model->get_owner_total_charges_for_booking($item->bookingNumber);
+                    $ownerChargeGrandTotal += $totalOwnerCharges;
+                    $totalIahCharges = $this->charges_model->get_iah_total_charges_for_booking($item->bookingNumber);
+                    $iahChargeGrandTotal += $totalIahCharges;
+                    $vatGrandTotal += $item->vatAmount;
+
+                    $output .= '"'.$item->ownerReference.'","'.$item->bookingNumber.'","'.$item->property_name.'","'.$item->contact_fname.' '.$item->contact_sname.'","'.$displayToDate.'","'.$displayFromDate.'","'.$item->customer_name.' '.$item->customer_surname.'","'.$item->customerReferral.'","'.$customerCountry.'","'.$displayBookingDate.'","'.$item->customerNights.'","'.$item->customerPrice.'","'.$item->commissionAmount.'","'.$item->bookingFee.'","'.$item->vatAmount.'","'.$item->agentFee.'","'.$totalOwnerCharges.'","'.$totalIahCharges.'","'.$item->ownerBalance.'"' . "\r\n";
     			}
-            // $output .='""," "," "," "," "," "," "," "," ","Totals ","'.$customerNightsTotal.'","'.$customerPriceTotal.'","'.$commissionTotal.'","'.$bookingFeeTotal.'","'.$vatGrandTotal.'","'.$agentFeeTotal.'","'.$ownerChargeGrandTotal.'","'.$iahChargeGrandTotal.'","'.$ownerBalanceTotal.'"' . "\r\n";
-    		}else{
-          $output = '<h4>There are no records!</h4>';
-        }
+                $output .='""," "," "," "," "," "," "," "," ","Totals ","'.$customerNightsTotal.'","'.$customerPriceTotal.'","'.$commissionTotal.'","'.$bookingFeeTotal.'","'.$vatGrandTotal.'","'.$agentFeeTotal.'","'.$ownerChargeGrandTotal.'","'.$iahChargeGrandTotal.'","'.$ownerBalanceTotal.'"' . "\r\n";
+    		}
+    		else
+    		{
+            	$output = '<h4>There are no records!</h4>';
+            }
         return $output;
     	}
 

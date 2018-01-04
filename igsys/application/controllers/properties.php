@@ -1,9 +1,9 @@
 <?php
 /**
  * Properties
- * 
+ *
  * @package Ireland at Home 2009
- * @author 
+ * @author
  * @copyright 2008
  * @version $Id$
  * @access public
@@ -36,7 +36,7 @@ class Properties extends Controller
         $this->load->view('footer_view');
     }
 
-/*	LIST PROPERTIES */    
+/*	LIST PROPERTIES */
     function list_properties($filter = 'live')
     {
     	switch ($filter) {
@@ -51,10 +51,10 @@ class Properties extends Controller
     	        break;
     	}
 		$data['heading'] = 'Select a property to edit: ';
-        $data['results'] = $this->property_model->list_properties($searchFilter);
+    $data['results'] = $this->property_model->list_properties($searchFilter);
 		$headerView = $this->global_model->get_standard_header_view();
 		$this->load->view('controlbar_view',$data);
-        $this->load->view('properties/properties_list_view',$data);
+    $this->load->view('properties/properties_list_view',$data);
 		$this->load->view('footer_view');
     }
 
@@ -98,7 +98,7 @@ class Properties extends Controller
 		$this->edit_property($propertyCode);
 	}
 
-/*	EDIT PROPERTY */    
+/*	EDIT PROPERTY */
 	function edit_property($propertyCode)
 	{
 		$data['heading'] = 'Edit Property';
@@ -107,7 +107,7 @@ class Properties extends Controller
 		$headerView = $this->global_model->get_standard_header_view();
 		$this->load->view('properties/property_edit_controlbar_view',$data);
 		$this->load->view('properties/property_edit_view',$data);
-		$this->load->view('footer_view');		
+		$this->load->view('footer_view');
 	}
 
 /*	UPDATE PROPERTIES */
@@ -119,6 +119,7 @@ class Properties extends Controller
         }
 		$inputData = array(
 		'property_type' => $this->input->post('property_type'),
+    'iah_availability' => $this->input->post('iah_availability'),
 		'caretaker_name' => $this->input->post('caretaker_name'),
 		'caretaker_number' => $this->input->post('caretaker_number'),
 		'caretaker_email' => $this->input->post('caretaker_email'),
@@ -163,8 +164,9 @@ class Properties extends Controller
 		'layout_5' => $this->input->post('layout_5'),
 		'layout_6' => $this->input->post('layout_6'),
 		'property_intro' => $this->input->post('property_intro'),
+    'property_intro_corporate' => $this->input->post('property_intro_corporate'),
 		'property_description' => $this->input->post('property_description'),
-		
+
 		'pic1' => $this->input->post('pic1'),
 		'pic1_descrip' => $this->input->post('pic1_descrip'),
 		'pic2' => $this->input->post('pic2'),
@@ -173,70 +175,70 @@ class Properties extends Controller
 		'pic3_descrip' => $this->input->post('pic3_descrip'),
 		'pic4' => $this->input->post('pic4'),
 		'pic4_descrip' => $this->input->post('pic4_descrip'),
-		
+
 		'hiSeasonStart' => $this->input->post('hiSeasonStart'),
 		'hiSeasonEnd' => $this->input->post('hiSeasonEnd'),
 
 		'rate_period1' => $this->input->post('rate_period1'),
 		'period1_cost' => $this->input->post('period1_cost'),
-		
+
 		'rate_period2' => $this->input->post('rate_period2'),
 		'period2_cost' => $this->input->post('period2_cost'),
-		
+
 		'rate_period3' => $this->input->post('rate_period3'),
 		'period3_cost' => $this->input->post('period3_cost'),
-		
+
 		'rate_period4' => $this->input->post('rate_period4'),
 		'period4_cost' => $this->input->post('period4_cost'),
-		
+
 		'rate_period5' => $this->input->post('rate_period5'),
 		'period5_cost' => $this->input->post('period5_cost'),
-		
+
 		'rate_period6' => $this->input->post('rate_period6'),
 		'period6_cost' => $this->input->post('period6_cost'),
-		
+
 		'rate_period7' => $this->input->post('rate_period7'),
 		'period7_cost' => $this->input->post('period7_cost'),
-		
+
 		'rate_period8' => $this->input->post('rate_period8'),
 		'period8_cost' => $this->input->post('period8_cost'),
-		
+
 		'rate_period9' => $this->input->post('rate_period9'),
 		'period9_cost' => $this->input->post('period9_cost'),
-		
+
 		'rate_period10' => $this->input->post('rate_period10'),
 		'period10_cost' => $this->input->post('period10_cost'),
-		
+
 		'rate_period11' => $this->input->post('rate_period11'),
 		'period11_cost' => $this->input->post('period11_cost'),
-		
+
 		'rate_period12' => $this->input->post('rate_period12'),
 		'period12_cost' => $this->input->post('period12_cost'),
-		
+
 		'rate_period13' => $this->input->post('rate_period13'),
 		'period13_cost' => $this->input->post('period13_cost'),
-		
+
 		'rate_period14' => $this->input->post('rate_period14'),
 		'period14_cost' => $this->input->post('period14_cost'),
-		
+
 		'rate_period15' => $this->input->post('rate_period15'),
 		'period15_cost' => $this->input->post('period15_cost'),
-		
+
 		'rate_period16' => $this->input->post('rate_period16'),
 		'period16_cost' => $this->input->post('period16_cost'),
-		
+
 		'rate_period17' => $this->input->post('rate_period17'),
 		'period17_cost' => $this->input->post('period17_cost'),
-		
+
 		'rate_period18' => $this->input->post('rate_period18'),
 		'period18_cost' => $this->input->post('period18_cost'),
-		
+
 		'rate_period19' => $this->input->post('rate_period19'),
 		'period19_cost' => $this->input->post('period19_cost'),
-		
+
 		'rate_period20' => $this->input->post('rate_period20'),
 		'period20_cost' => $this->input->post('period20_cost'),
-		
+
 		'rate_comment' => $this->input->post('rate_comment'),
 		'rates_status' => $this->input->post('rates_status'),
 		'offer_descrip' => $this->input->post('offer_descrip'),
@@ -268,10 +270,10 @@ class Properties extends Controller
 		'bf' => $this->input->post('bf'),
 		'terms' => $this->input->post('terms'),
 		'disclaimer' => $this->input->post('disclaimer')
-		);	
+		);
 	$this->property_model->update_property($propertyCode,$inputData);
-	$this->edit_property($propertyCode);	
-	}    
+	$this->edit_property($propertyCode);
+	}
 
 /*	EDIT RATES FOR SINGLE PROPERTY */
 	function show_rates($propertyCode)
@@ -285,7 +287,7 @@ class Properties extends Controller
 		$this->load->view('properties/edit_rates_view',$data);
 		$this->load->view('footer_view');
 	}
-	
+
 /*	UPDATE A SINGLE RATE */
 	function update_single_rate()
 	{

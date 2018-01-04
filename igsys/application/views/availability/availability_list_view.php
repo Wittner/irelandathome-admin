@@ -8,29 +8,29 @@
 /* Set form vars for booking availability */
 function setVars(calendarDate,townId,propertyCodeIn,propertyIn,fromDislplayDateIn,fromDateIn)
 {
-animatedcollapse.hide('booknow');
-animatedcollapse.hide('releasenow');
-animatedcollapse.show('booknow');
-document.bookingForm.defaultCalendarDate.value=calendarDate;
-document.bookingForm.townId.value=townId;
-document.bookingForm.propertyCode.value=propertyCodeIn;
-document.bookingForm.propertyName.value=propertyIn;
-document.bookingForm.fromDisplayDate.value=fromDislplayDateIn;
-document.bookingForm.fromDate.value=fromDateIn;
+	animatedcollapse.hide('booknow');
+	animatedcollapse.hide('releasenow');
+	animatedcollapse.show('booknow');
+	document.bookingForm.defaultCalendarDate.value=calendarDate;
+	document.bookingForm.townId.value=townId;
+	document.bookingForm.propertyCode.value=propertyCodeIn;
+	document.bookingForm.propertyName.value=propertyIn;
+	document.bookingForm.fromDisplayDate.value=fromDislplayDateIn;
+	document.bookingForm.fromDate.value=fromDateIn;
 }
 
 /* Set form vars for releasing availability */
 function setReleaseVars(calendarDate,townId,propertyCodeIn,propertyIn,fromDislplayDateIn,fromDateIn)
 {
-animatedcollapse.hide('booknow');
-animatedcollapse.hide('releasenow');
-animatedcollapse.show('releasenow');
-document.releaseForm.defaultCalendarDate.value=calendarDate;
-document.releaseForm.townId.value=townId;
-document.releaseForm.propertyCode.value=propertyCodeIn;
-document.releaseForm.propertyName.value=propertyIn;
-document.releaseForm.fromDisplayDate.value=fromDislplayDateIn;
-document.releaseForm.fromDate.value=fromDateIn;
+	animatedcollapse.hide('booknow');
+	animatedcollapse.hide('releasenow');
+	animatedcollapse.show('releasenow');
+	document.releaseForm.defaultCalendarDate.value=calendarDate;
+	document.releaseForm.townId.value=townId;
+	document.releaseForm.propertyCode.value=propertyCodeIn;
+	document.releaseForm.propertyName.value=propertyIn;
+	document.releaseForm.fromDisplayDate.value=fromDislplayDateIn;
+	document.releaseForm.fromDate.value=fromDateIn;
 }
 </script>
 
@@ -48,6 +48,7 @@ document.releaseForm.fromDate.value=fromDateIn;
 	<input type="hidden" id="rooms" name="rooms" value="<?=$rooms;?>" />
 	<input type="hidden" id="sleeps" name="sleeps" value="<?=$sleeps;?>" />
 	<input type="hidden" id="code" name="code" value="<?=$code;?>" />
+	<input type="hidden" id="filter" name="filter" value="<?=$filter;?>" />
 	<td>
 		<strong>Action: </strong><br />
 		<select name="action">
@@ -82,7 +83,7 @@ document.releaseForm.fromDate.value=fromDateIn;
 <div id="releasenow">
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
 <tr>
-<form action="index.php/availability/start_booking" method="post" name="releaseForm" >
+<form action="index.php/availability/start_booking" method="post" name="releaseForm">
 	<input type="hidden" id="defaultCalendarDate" name="defaultCalendarDate"  value="<?=$calendarDate;?>" />
 	<input type="hidden" id="defaultTownId" name="defaultTownId" value="<?=$townId;?>" />
 	<input type="hidden" id="propertyCode" name="propertyCode" />
@@ -91,6 +92,7 @@ document.releaseForm.fromDate.value=fromDateIn;
 	<input type="hidden" id="rooms" name="rooms" value="<?=$rooms;?>" />
 	<input type="hidden" id="sleeps" name="sleeps" value="<?=$sleeps;?>" />
 	<input type="hidden" id="code" name="code" value="<?=$code;?>" />
+	<input type="hidden" id="filter" name="filter" value="<?=$filter;?>" />
 	<td>
 		<strong>Action: </strong><br />
 		<input name="action" id="action" type="text" value="release" readonly="true" /></td>
@@ -115,4 +117,3 @@ document.releaseForm.fromDate.value=fromDateIn;
 <div id="delivery">
 <?= $calendar; ?>
 </div>
-

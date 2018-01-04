@@ -111,6 +111,66 @@ class Reports extends Controller
 	}
 
 
+
+  /*	*******************************************/
+  /*	********* SALES BY DEPARTURE DATE ***********/
+  /*	*******************************************/
+
+  /*	SALES BY DEPARTURE DATE INPUT */
+  	function sales_by_departure_date_input()
+  	{
+  		$data['heading'] = 'Sales report by arrival date';
+  		$data['ownerCombo'] = $this->owner_model->get_owner_combo('');
+  		$data['propertyCombo'] = $this->property_model->get_property_combo('');
+  		$data['countryCombo'] = $this->global_model->get_country_combo('');
+  		$data['referallCombo'] = $this->global_model->get_referral_combo('');
+  		$headerView = $this->global_model->get_standard_header_view();
+  		$this->load->view('reports/sales_by_departure_date_input',$data);
+  		$this->load->view('footer_view');
+  	}
+
+  /*	SALES BY DEPARTURE DATE REPORT */
+  	function sales_report_by_departure_date()
+  	{
+  			$fromDate = $this->input->post('fromDate');
+  			$toDate = $this->input->post('toDate');
+  			$owner_id = $this->input->post('owner_id');
+  			$property_code = $this->input->post('property_code');
+  			$customer_email = $this->input->post('customer_email');
+  			$customer_country = $this->input->post('country_name');
+  			$source_code = $this->input->post('source_code');
+  			$referrer = $this->input->post('referrer');
+  			if($referrer == 'None selected'){
+  				$referrer = 'any';
+  			}
+  			$data['heading'] = 'Sales report by Departure date';
+  			$data['companyData'] = $this->global_model->get_company_data();
+  			$data['results'] = $this->reports_model->sales_report_by_departure_date($fromDate,$toDate,$owner_id,$property_code,$customer_email,$customer_country,$source_code,$referrer);
+  			$headerView = $this->global_model->get_standard_header_view();
+  			$this->load->view('reports/sales_by_departure_date_results',$data);
+  			$this->load->view('footer_view');
+  	}
+
+  /*	SALES BY DEPARTURE DATE CSV REPORT */
+  	function excel_sales_report_by_departure_date()
+  	{
+  			$fromDate = $this->input->post('fromDate');
+  			$toDate = $this->input->post('toDate');
+  			$owner_id = $this->input->post('owner_id');
+  			$property_code = $this->input->post('property_code');
+        $referrer = $this->input->post('referrer');
+  			if($referrer == 'None selected'){
+  				$referrer = 'any';
+  			}
+  			$customer_country = $this->input->post('customer_country');
+  			$source_code = $this->input->post('source_code');
+  			$data['heading'] = 'Sales report by booking date';
+  			$data['reportName'] = 'SalesReportByDepartureDate-';
+  			$data['results'] = $this->reports_model->csv_sales_report_by_departure_date($fromDate,$toDate,$owner_id,$property_code,$customer_country,$source_code,$referrer);
+  			$this->load->view('filemaker/create_excel_file',$data);
+  	}
+
+
 /*	*******************************************/
 /*	********* SALES BY BOOKING DATE ***********/
 /*	*******************************************/

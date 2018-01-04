@@ -1,9 +1,9 @@
 <?php
 /**
  * Booking
- * 
+ *
  * @package Ireland at Home 2009
- * @author 
+ * @author
  * @copyright 2008
  * @version $Id$
  * @access public
@@ -58,10 +58,10 @@ class Sales extends Controller
         $this->load->view('footer_view');
     }
 
-    
-/*	START A SALE */    
+
+/*	START A SALE */
     function create_sale()
-    {		
+    {
 		// Data from form
 		$enquiryId = $this->input->post('enquiryId');
 		$customerNumber = $this->input->post('customerNumber');
@@ -152,10 +152,10 @@ class Sales extends Controller
 				$data['saleDate'] = $saleDate;
 				$data['saleStatus'] = $saleStatus;
 				$data['enquiryId'] = $enquiryId;
-				
+
 				// Set existing customer data
 				$data['query'] = $this->customer_model->get_customer_by_number($checkCustomerNumber);
-				
+
 				// Load conflict view
 				$headerView = $this->global_model->get_standard_header_view();
 				$this->load->view('sales/sales_conflict_view',$data);
@@ -164,10 +164,10 @@ class Sales extends Controller
 			else
 			{
 				// Customer is new - add customer, then add sale
-				
+
 				// Add customer
 				$customerNumber = $this->customer_model->add_customer($customerName,$customerSurname,$customerLandphone,$customerMobile,$customerEmail,$customerCountry,$customerAddress,$customerReferral,$customerDate,$customerCompanyId);
-				
+
 				// Add sale
 				$data['heading'] = 'Edit Sale';
 				$saleId = $this->sales_model->create_new_sale($enquiryDate,$saleDate,$saleStatus,$customerNights,$customerNumber,$customerReferral,$propertyList,$fromDate,$fromTime,$adults,$children,$infants,$cot,$highchair,$toDate,$toTime,$propertyCode,$customerSpecials,$sourceCode,$adminInit);
@@ -175,16 +175,16 @@ class Sales extends Controller
 				if($saleId != '')
 				{
 					$this->enquiries_model->delete_enquiry_by_id($enquiryId);
-				}	
+				}
 			}
     	}
 	}
 
-/*	MAKE A NEW SALE WITH CUSTOMER CONFLICT */	
+/*	MAKE A NEW SALE WITH CUSTOMER CONFLICT */
 	function customer_conflict()
 	{
 		// Sale will have come in from 'sales customer conflict' view
-		
+
 		// New info
 		$newCustomerName = $this->input->post('newCustomerName');
 		$newCustomerSurname = $this->input->post('newCustomerSurname');
@@ -205,13 +205,13 @@ class Sales extends Controller
 		$customerAddress = $this->input->post('customerAddress');
 		$customerLandphone = $this->input->post('customerLandphone');
 		$customerMobile = $this->input->post('customerMobile');
-		$customerEmail = $this->input->post('customerEmail');		
+		$customerEmail = $this->input->post('customerEmail');
 		$customerReferral = $this->input->post('customerReferral');
 		$specials = $this->input->post('specials');
 		$customerAlternatives = $this->input->post('customerAlternatives');
 		$customerDate = date('Y-m-d');
 		$adminInit = "MB";
-		
+
 		// Booking data
 		$propertyCode = $this->input->post('propertyCode');
 		$fromDate = $this->input->post('fromDate');
@@ -230,22 +230,22 @@ class Sales extends Controller
 		$saleDate = $this->input->post('saleDate');
 		$saleStatus = $this->input->post('saleStatus');
 		$enquiryId = $this->input->post('enquiryId');
-		
+
 		// General booking data
         $enquiryDate = date('Y-m-d');
         $bookingDate = date('Y-m-d');
 		$adminInit = 'MB';
 		$sourceCode = 'ADMIN';
-		
+
 		// Control info from conflict view
 		$replace_customer_name = $this->input->post('replace_customer_name');
 		$replace_customer_landphone = $this->input->post('replace_customer_landphone');
 		$replace_customer_mobile = $this->input->post('replace_customer_mobile');
 		$replace_customer_address = $this->input->post('replace_customer_address');
-		
+
 		// Sort out which fields have to be updated
 		// If email has changed then forget all that and just add a new customer with new data
-			
+
 		if($newCustomerEmail == $customerEmail)
 		{
 			if($replace_customer_name == 'yes')
@@ -279,12 +279,12 @@ class Sales extends Controller
 			if($saleId != '')
 			{
 				$this->enquiries_model->delete_enquiry_by_id($enquiryId);
-			}			
-			$this->edit_sale($saleId,$propertyCode);					
+			}
+			$this->edit_sale($saleId,$propertyCode);
 	}
 
 
-/*	UPDATE / CONVERT A SALE*/	
+/*	UPDATE / CONVERT A SALE*/
 	function update_sale()
 	{
 		// Data from form
@@ -324,7 +324,7 @@ class Sales extends Controller
 		$chargeAmount = $this->input->post('chargeAmount');
 		$chargePurpose = $this->input->post('chargePurpose');
 		$saleId = $this->input->post('saleId');
-		
+
 		// Update customer and sales data
 		$this->customer_model->update_customer($customerNumber,$customerName,$customerSurname,$customerCompanyId,$customerLandphone,$customerMobile,$customerEmail,$customerCountry,$customerAddress,$customerReferral,$customerDate);
 		$this->sales_model->update_sale($saleId,$customerNights,$customerNumber,$customerReferral,$propertyList,$fromDate,$fromTime,$adults,$children,$infants,$cot,$highchair,$toDate,$toTime,$propertyCode,$customerSpecials);
@@ -352,24 +352,24 @@ class Sales extends Controller
 				// Add booking, payment, initial charges if any
 				$data['heading'] = 'Edit Booking';
 				$query = $this->sales_model->get_sale_by_id($saleId);
-				
+
 				foreach($query->result() as $row)
 				{
 				$enquiryDate = $row->enquiryDate;
 				}
-				
+
 				$bookingDate = date('Y-m-d');
 				$bookingStatus = 'PAYMNT';
 				$adminInit = 'MB';
 				$sourceCode = 'MAN';
 				$toDate = $this->global_model->get_to_date($fromDate,$customerNights);
-				
+
 				$bookingNumber = $this->booking_model->create_new_booking($enquiryDate,$bookingDate,$customerNights,$customerNumber,$customerReferral,$propertyList,$fromDate,$fromTime,$adults,$children,$infants,$cot,$highchair,$toDate,$toTime,$propertyCode,$customerSpecials,$accommCost,$bookingFee,$chargeAmount,$bookingDiscount,$commissionPercentage,$bookingStatus,$adminInit,$sourceCode,$paymentMethod,$paymentPurpose,$paymentAmount,$paymentRef);
 				if($bookingNumber !='')
 				{
 					$this->sales_model->change_sale_status($saleId,'delete');
 					$this->offer_model->delete_offers_by_sale($saleId);
-				}				
+				}
 				$paymentId = $this->payment_model->add_payment($bookingNumber,$paymentPurpose,$paymentMethod,$paymentAmount,$paymentRef);
 				if($chargePurpose !='')
 				{
@@ -409,7 +409,7 @@ class Sales extends Controller
 		$this->load->view('footer_view');
 	}
 
-/*	EDIT SALE */	
+/*	EDIT SALE */
 	function edit_sale($saleId)
 	{
 		$data['heading'] = 'Edit Sale';
@@ -421,7 +421,7 @@ class Sales extends Controller
 			$countryId = $row->customer_country;
 			$referral = $row->customerReferral;
 			$data['sourceCode'] = $row->sourceCode;
-		} 
+		}
 		$data['offerList'] = $this->offer_model->list_offers($saleId);
 		$data['unselectedPropertyCombo'] = $this->property_model->get_property_combo('');// Unselected property combo is for the 'add an offer' form at top of sale view
 		$data['propertyCombo'] = $this->property_model->get_property_combo($propertyCode);
@@ -433,35 +433,35 @@ class Sales extends Controller
 		$headerView = $this->global_model->get_standard_header_view();
 		$this->load->view('sales/edit_sales_controlbar_view',$data);
 		$this->load->view('sales/edit_sale_view',$data);
-		$this->load->view('footer_view');	
+		$this->load->view('footer_view');
 	}
 
 /*	LIST SALES */
 	function list_sales()
-	{	
+	{
 	    $config['base_url'] = base_url().'index.php/sales/list_sales';
 	    $config['total_rows'] = $this->sales_model->count_current_sales();
 	    $config['per_page'] = '20';
 	    $config['full_tag_open'] = '<div>';
 	    $config['full_tag_close'] = '</div>';
 	    $this->pagination->initialize($config);
-	
+
 		$data['results'] = $this->sales_model->list_sales($config['per_page'],$this->uri->segment(3));
 		$data['heading'] = 'Latest sales';
 		$headerView = $this->global_model->get_standard_header_view();
 		$this->load->view('sales/sales_list_view',$data);
-		$this->load->view('footer_view');		
+		$this->load->view('footer_view');
 	}
 
 /*	LIST SALES */
 	function list_all_sales()
-	{	
+	{
 		$config['total_rows'] = $this->sales_model->count_current_sales();
 		$data['results'] = $this->sales_model->list_sales($config['total_rows'],$this->uri->segment(3));
 		$data['heading'] = 'Latest sales';
 		$headerView = $this->global_model->get_standard_header_view();
 		$this->load->view('sales/all_sales_list_view',$data);
-		$this->load->view('footer_view');		
+		$this->load->view('footer_view');
 	}
 
 /*	ADD OFFER TO A SALE */
@@ -472,7 +472,7 @@ class Sales extends Controller
     	$fromDate = $this->input->post('offerFromDate');
     	$toDate = $this->input->post('offerToDate');
     	$offerPrice = $this->input->post('offerPrice');
-    	
+
     	$adminUsername = 'Mikeb';
     	$offerQty = $this->input->post('quantity');
     	// echo '|'. $saleId.'|'.$propertyCode.'|'.$fromDate.'|'.$toDate.'|'.$offerPrice.'|'.$adminUsername.'|'.$offerQty.'|';
@@ -491,19 +491,19 @@ class Sales extends Controller
 	$data['emailHeader'] = $this->comms_model->get_email_header();
 	$data['emailFooter'] = $this->comms_model->get_email_footer();
 	$data['emailCloser'] = $this->comms_model->get_email_closer();
-	$data['saleId'] = $saleId; 
+	$data['saleId'] = $saleId;
 	$headerView = $this->global_model->get_standard_header_view();
 	$this->load->view('offers/offer_email_view',$data);
 	$this->load->view('footer_view');
 	}
-	
+
 /*	DELETE AN OFFER */
 	function remove_offer($saleId,$offerId)
 	{
 		$this->offer_model->delete_offer($offerId);
 		$this->edit_sale($saleId);
 	}
-		
+
 }// End of class
 
 ?>

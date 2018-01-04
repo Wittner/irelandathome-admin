@@ -10,6 +10,20 @@ class Comms_model extends Model
     }
 
 
+/* SEND AN SMS */
+
+  function send_neon_sms($url)
+  {
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+      CURLOPT_RETURNTRANSFER => 1,
+      CURLOPT_URL => $url
+    ));
+    $curlResult = curl_exec($curl);
+    curl_close($curl);
+    return $curlResult;
+  }
+
 /*	SEND AN EMAIL */
 	function send_email($from,$to,$subject,$message)
 	{
@@ -28,16 +42,24 @@ class Comms_model extends Model
 		}
 
     $to = implode(", ",$toArray);
-		$config['mailtype'] = 'html';
-    $this->email->initialize($config);
-		$this->email->from($from);
-		$this->email->subject($subject);
-		$this->email->message($message);
-    $this->email->to($to);
-		$this->email->send();
 
-    $userMessage .= "Email sent for valid users above<br><br>";
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+    curl_setopt($ch, CURLOPT_USERPWD, 'api:key-cf0cb806d66d88ba216999920c61297a');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+    curl_setopt($ch, CURLOPT_URL,
+                'https://api.mailgun.net/v3/mg.irelandathome.com/messages');
+    curl_setopt($ch, CURLOPT_POSTFIELDS,
+                  array('from' => 'Ireland At Home sales <sales@irelandathome.com>',
+                        'to' => $to,
+                        'subject' => $subject,
+                        'text' => 'It appears your email does not support html. Please contact Ireland At Home about your recent sale.',
+                        'html' => $message));
+    $result = curl_exec($ch);
+    curl_close($ch);
 
+    $userMessage .= $result;
     return $userMessage;
 	}
 
@@ -320,29 +342,21 @@ class Comms_model extends Model
                   <![endif]-->
 
                   <!-- IAH Logo box -->
-                  <table role="presentation" aria-hidden="true" cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 680px; margin-bottom: 20px;">
+                  <table role="presentation" aria-hidden="true" cellspacing="0" cellpadding="20" border="0" align="center" width="100%" style="max-width: 680px; margin-bottom: 20px;">
                       <!-- 1 Column Text + Button : BEGIN -->
                       <tr>
-                          <td bgcolor="#ffffff">
-                              <table role="presentation" aria-hidden="true" cellspacing="0" cellpadding="0" border="0" width="100%">
-                                <!--- IAH logo -->
-                                <tr>
-                                    <td style="height: 80px; padding-top: 10px; padding-bottom: 10px; text-align: center; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #555555;">
-                                      <img src="https://irelandathome.com/images/email_logo.jpg" aria-hidden="true" width="263" height="41" alt="Requested offer from Ireland At Home" border="0" background: #dddddd; font-family: sans-serif; font-size: 15px; line-height: 20px; color: #555555;">
-                                    </td>
-                                </tr>
-                              </table>
+                          <td bgcolor="#ffffff" text-align="center" style="text-align:center;">
+                              <img src="https://irelandathome.com/images/email_logo.jpg" aria-hidden="true" width="263" height="41" alt="Ireland at Home booking attempt" border="0">
                           </td>
                       </tr>
                   </table>
-                  <br><br>
+                  <br>
                   ';
       return $iah_email_header;
   }
 
   function iah_get_offers_body($recipient, $saleId, $notes) {
     $offers_body = '<!-- Email Body : BEGIN -->
-    <br><br><br><br><br><br><br>
       <table role="presentation" aria-hidden="true" cellspacing="0" cellpadding="0" border="0" align="center" width="100%" style="max-width: 680px;">
           <!-- 1 Column Text + Button : BEGIN -->
           <tr>
