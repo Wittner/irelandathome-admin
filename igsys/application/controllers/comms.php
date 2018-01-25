@@ -137,8 +137,8 @@ class Comms extends Controller
       $sendSMS = $this->input->post('sendSMS');
       $mobileNumber = $this->input->post('mobileNumber');
       $to = $this->input->post('toAddress');
-      $to = $to . ', sales@irelandathome.com';
-  		$from = 'sales@irelandathome.com';
+      // $to = $to . ', sales@irelandathome.com';
+  		$from = 'postmaster@mg.irelandathome.com';
   		$subject = 'Accommodation requirement response';
       $message = $this->comms_model->iah_get_email_header();
       $message .= $this->comms_model->iah_get_offers_body($recipient, $saleId, $notes);

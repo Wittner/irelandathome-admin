@@ -51,6 +51,11 @@ class Booking extends Controller
         $this->global_model->is_logged_in();
     }
 
+		function say_hi()
+		{
+			return "hi there";
+		}
+
 /*	MAKE A BOOKING */
     function make_booking()
     {

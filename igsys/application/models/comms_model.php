@@ -51,7 +51,7 @@ class Comms_model extends Model
     curl_setopt($ch, CURLOPT_URL,
                 'https://api.mailgun.net/v3/mg.irelandathome.com/messages');
     curl_setopt($ch, CURLOPT_POSTFIELDS,
-                  array('from' => 'Ireland At Home sales <sales@irelandathome.com>',
+                  array('from' => 'ireland at home reservations <reservations@mg.irelandathome.com>',
                         'to' => $to,
                         'subject' => $subject,
                         'text' => 'It appears your email does not support html. Please contact Ireland At Home about your recent sale.',
